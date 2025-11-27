@@ -1,6 +1,12 @@
+package test;
+
 import org.junit.jupiter.api.*;
+import src.ParkingSpot;
+import src.Reservation;
+
 import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDateTime;
+import java.util.concurrent.TimeUnit;
 
 class ReservationTest {
     private Reservation res;
@@ -27,6 +33,7 @@ class ReservationTest {
 
 //    Todo: Test case 1 with proper name
 //          When startTime >= endTime, the method should throw IllegalArgumentException
+    @DisplayName("Invalid time check")
     @Test
     void InvalidTime(){
         res = new Reservation(1, 1, spot, now, now);
@@ -38,6 +45,7 @@ class ReservationTest {
 
 //    Todo: Test case 2 with proper name
 //          When the parking spot is not AVAILABLE, the method should throw IllegalStateException
+    @DisplayName("Unavailable spot check")
     @Test
     void UnavailableSpot(){
         spot.setStatus(ParkingSpot.Status.RESERVED);
@@ -50,16 +58,17 @@ class ReservationTest {
 
 //    Todo: Test case 3 with proper name and finish within 100 millisecond
 //          The method returns true and the reservation becomes confirmed
+    @DisplayName("Timeout check")
+    @Timeout(value=100, unit= TimeUnit.MILLISECONDS)
     @Test
-    @Timeout(100)
     void ReturnsTrueAndConfirmsReservation(){
         res = new Reservation(1, 1, spot, now, later);
 
         boolean result = res.processReservation();
 
         assertTrue(result);
-        assertTrue(res.isConfirmed());
-        assertEquals(ParkingSpot.Status.RESERVED, spot.getStatus());
+        Assertions.assertTrue(res.isConfirmed());
+        Assertions.assertEquals(ParkingSpot.Status.RESERVED, spot.getStatus());
     }
 
 }
