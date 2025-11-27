@@ -64,8 +64,8 @@ class ReservationTest {
         boolean result = res.processReservation();
 
         assertTrue(result);
-        Assertions.assertTrue(res.isConfirmed());
-        Assertions.assertEquals(ParkingSpot.Status.RESERVED, spot.getStatus());
+        assertTrue(res.isConfirmed());
+        assertEquals(ParkingSpot.Status.RESERVED, spot.getStatus());
     }
 
 }
