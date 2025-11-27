@@ -33,11 +33,19 @@ class ReservationTest {
     @DisplayName("Invalid time check")
     @Test
     void InvalidTime(){
+        System.out.println("Start time = End time");
         res = new Reservation(1, 1, spot, now, now);
-
         assertThrows(IllegalArgumentException.class, () -> {
             res.processReservation();
         });
+        System.out.println("Test Success");
+
+        System.out.println("Start time > End time");
+        res = new Reservation(1, 1, spot, now.plusHours(2), now);
+        assertThrows(IllegalArgumentException.class, () -> {
+            res.processReservation();
+        });
+        System.out.println("Test Success");
     }
 
 //    Todo: Test case 2 with proper name
@@ -45,12 +53,14 @@ class ReservationTest {
     @DisplayName("Unavailable spot check")
     @Test
     void UnavailableSpot(){
+        System.out.println("Unavailable Spot Check");
         spot.setStatus(ParkingSpot.Status.RESERVED);
         res = new Reservation(1, 1, spot, now, now.plusHours(2));
 
         assertThrows(IllegalStateException.class, () -> {
             res.processReservation();
         });
+        System.out.println("Test Success");
     }
 
 //    Todo: Test case 3 with proper name and finish within 100 millisecond
@@ -59,6 +69,7 @@ class ReservationTest {
     @Timeout(value=100, unit= TimeUnit.MILLISECONDS)
     @Test
     void ReturnsTrueAndConfirmsReservation(){
+        System.out.println("Timeout Check");
         res = new Reservation(1, 1, spot, now, now.plusHours(2));
 
         boolean result = res.processReservation();
@@ -66,6 +77,8 @@ class ReservationTest {
         assertTrue(result);
         assertTrue(res.isConfirmed());
         assertEquals(ParkingSpot.Status.RESERVED, spot.getStatus());
+
+        System.out.println("Test Success");
     }
 
 }
