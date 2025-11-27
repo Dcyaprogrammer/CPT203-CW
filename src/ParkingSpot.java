@@ -1,5 +1,7 @@
-class ParkingSpot {
-    enum Status { AVAILABLE, RESERVED, OUT_OF_SERVICE }
+package src;
+
+public class ParkingSpot {
+    public enum Status { AVAILABLE, RESERVED, OUT_OF_SERVICE }
     private final int spotId;
     private Status status;
 
@@ -12,4 +14,3 @@ class ParkingSpot {
     public Status getStatus() { return status; }
     public void setStatus(Status status) { this.status = status; }
 }
-
