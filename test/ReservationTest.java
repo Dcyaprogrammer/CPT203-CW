@@ -12,13 +12,11 @@ class ReservationTest {
     private Reservation res;
     private ParkingSpot spot;
     private LocalDateTime now;
-    private LocalDateTime later;
 
 //    Todo:Initialize a fixed LocalDateTime value (e.g., a baseline "now")
     @BeforeEach
     void setUp() {
         now = LocalDateTime.of(2025, 12, 12, 0, 0);
-        later = now.plusHours(2);
         spot = new ParkingSpot(1, ParkingSpot.Status.AVAILABLE);
     }
 
@@ -28,7 +26,6 @@ class ReservationTest {
         res = null;
         spot = null;
         now = null;
-        later = null;
     }
 
 //    Todo: Test case 1 with proper name
@@ -49,7 +46,7 @@ class ReservationTest {
     @Test
     void UnavailableSpot(){
         spot.setStatus(ParkingSpot.Status.RESERVED);
-        res = new Reservation(1, 1, spot, now, later);
+        res = new Reservation(1, 1, spot, now, now.plusHours(2));
 
         assertThrows(IllegalStateException.class, () -> {
             res.processReservation();
@@ -62,7 +59,7 @@ class ReservationTest {
     @Timeout(value=100, unit= TimeUnit.MILLISECONDS)
     @Test
     void ReturnsTrueAndConfirmsReservation(){
-        res = new Reservation(1, 1, spot, now, later);
+        res = new Reservation(1, 1, spot, now, now.plusHours(2));
 
         boolean result = res.processReservation();
 
